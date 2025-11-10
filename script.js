@@ -1,5 +1,20 @@
 let humanScore=0;
 let computerScore=0;
+let winTrigger=0;
+const body= document.querySelector("body");
+const resultDiv = document.createElement("div");
+const compChoice = document.createElement("div");
+const scoreSpan = document.createElement("span");
+const humanDiv = document.createElement("div");
+const compDiv = document.createElement("div");
+const winner = document.createElement("div");
+scoreSpan.appendChild(humanDiv);
+scoreSpan.appendChild(compDiv);
+body.appendChild(compChoice);
+body.appendChild(resultDiv);
+body.appendChild(scoreSpan);
+body.appendChild(winner);
+
 function getComputerChoice(){
 
     let value = (Math.random()*10)%3;
@@ -11,50 +26,63 @@ function getComputerChoice(){
     }else{
         choice="scissor";
     }
-
-    console.log(choice);
+    compChoice.textContent=choice;
     return choice;
 
 }
-
+/*
 function getHumanChoice(){
    let choice = prompt("YOUR CHOICE ");
 
    return choice.toLowerCase();
 }
-
-function playRound(){
+*/
+function playRound(event){
     let choiceComputer = getComputerChoice();
-    let choiceHuman = getHumanChoice();
+    let choiceHuman = event.target.value;
+    
+
+
     if(choiceHuman==choiceComputer){
-        console.log("Draw Yeeeeey");
+        resultDiv.textContent="Draw Yeeeeey";
     }else if(choiceHuman=="rock" && choiceComputer=="paper"){
-        console.log("YOU SUCK BOOOO!");
+        resultDiv.textContent="YOU SUCK BOOOO!";
         computerScore++;        
     }else if(choiceHuman=="scissor" && choiceComputer=="rock"){
-        console.log("YOU SUCK BOOOO!");
+        resultDiv.textContent="YOU SUCK BOOOO!";
         computerScore++;        
     }else if(choiceHuman=="paper" && choiceComputer=="scissor"){
-        console.log("YOU SUCK BOOOO!");
+        resultDiv.textContent="YOU SUCK BOOOO!";
         computerScore++;        
     }else if(choiceHuman=="rock" && choiceComputer=="scissor"){
-        console.log("YOU ROCK!");
+        resultDiv.textContent="YOU ROCK!";
         humanScore++;        
     }else if(choiceHuman=="scissor" && choiceComputer=="paper"){
-        console.log("YOU ROCK!");
+        resultDiv.textContent="YOU ROCK!";
         humanScore++;        
     }else if(choiceHuman=="paper" && choiceComputer=="rock"){
-        console.log("YOU ROCK!");
+        resultDiv.textContent="YOU ROCK!";
         humanScore++;        
     }else{
-        console.log("trash input");
+        resultDiv.textContent="trash input";
     }
+    compDiv.textContent="computer :" + computerScore;
+    humanDiv.textContent="human :" + humanScore;
+    
 
-    return 0
+    if(computerScore==5 && winTrigger==0){
+        winner.textContent="computer win";
+        winTrigger=1;
+    }else if(humanScore==5 && winTrigger==0){
+        winner.textContent="human win";
+        winTrigger=1;
+    }
+    
 }
+
 function playGame(){
 let i = 0;
-while(i<5){
+while(true){
     console.log(computerScore);
     console.log(humanScore);
     console.log("-------------");
@@ -73,4 +101,13 @@ if(computerScore>humanScore){
 
 
 }
-playGame();
+
+const btnRock = document.querySelector(".rock");
+const btnPaper = document.querySelector(".paper");
+const btnSci = document.querySelector(".scissor");
+
+btnRock.addEventListener("click",playRound);
+btnPaper.addEventListener("click",playRound);
+btnSci.addEventListener("click",playRound);
+
+//playGame();
